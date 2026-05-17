@@ -142,18 +142,10 @@ function AdminPanel() {
         </Link>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '40px', alignItems: 'start' }}>
+      <div className="admin-grid">
         
         {/* Form Section */}
-        <div style={{ 
-          background: 'var(--bg-light)', 
-          padding: '40px', 
-          borderRadius: '16px', 
-          border: '1px solid rgba(255,255,255,0.05)',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
-          position: 'sticky',
-          top: '100px'
-        }}>
+        <div className="admin-form-card">
           <h2 style={{ marginBottom: '25px', fontSize: '1.5rem', color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: '10px' }}>
             {editingId ? (
               <><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit Project</>
@@ -163,7 +155,7 @@ function AdminPanel() {
           </h2>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '15px' }}>
+            <div className="admin-input-split">
               <div>
                 <label style={labelStyle}>Project #</label>
                 <input type="text" name="projectNum" value={formData.projectNum} onChange={handleInputChange} placeholder="e.g. P.001" required style={inputStyle} />

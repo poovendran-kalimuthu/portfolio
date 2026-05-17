@@ -683,6 +683,8 @@ footer {
   #hero { padding: 100px 24px 80px; }
   .about-grid { grid-template-columns: 1fr; gap: 40px; }
   .exp-item { grid-template-columns: 1fr; gap: 8px; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr; }
   footer { flex-direction: column; gap: 8px; text-align: center; }
 }
 
@@ -815,4 +817,171 @@ footer {
   border-radius: 50%;
   animation: cyberSpin 0.6s linear infinite;
 }
+
+/* ── PREMIUM RESPONSIVE MODAL SYSTEM ──────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.modal-container {
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-content-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 30px;
+  padding: 30px;
+}
+
+.modal-carousel-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-carousel-display {
+  position: relative;
+  height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-carousel-thumbs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+
+.modal-carousel-thumbs::-webkit-scrollbar {
+  height: 3px;
+}
+
+.modal-carousel-thumbs::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.modal-right-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* ── MODAL MOBILE RESPONSIVE MEDIA QUERIES ─────── */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 16px;
+  }
+  
+  .modal-container {
+    max-height: 94vh;
+    border-radius: 12px;
+  }
+  
+  .modal-content-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 24px;
+  }
+  
+  .modal-carousel-display {
+    height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 8px;
+  }
+  
+  .modal-container {
+    max-height: 96vh;
+    border-radius: 8px;
+  }
+  
+  .modal-content-grid {
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .modal-carousel-display {
+    height: 180px;
+  }
+}
+
+/* ── RESPONSIVE ADMIN DASHBOARD SYSTEM ────────── */
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+  gap: 40px;
+  align-items: start;
+}
+
+.admin-form-card {
+  background: var(--surface);
+  padding: 40px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  position: sticky;
+  top: 100px;
+}
+
+.admin-input-split {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 15px;
+}
+
+@media (max-width: 768px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .admin-form-card {
+    padding: 24px;
+    position: static;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-form-card {
+    padding: 16px;
+  }
+  
+  .admin-input-split {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
 

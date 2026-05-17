@@ -206,33 +206,8 @@ function ProjectsPage() {
 
       {/* PROJECT DETAIL MODAL */}
       {selectedProject && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'rgba(10, 10, 10, 0.85)',
-          backdropFilter: 'blur(8px)',
-          zIndex: 9999,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '20px'
-        }} onClick={() => setSelectedProject(null)}>
-          <div style={{
-            background: 'var(--bg-light)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '16px',
-            width: '100%',
-            maxWidth: '900px',
-            maxHeight: '90vh',
-            overflowY: 'auto',
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
-          }} onClick={e => e.stopPropagation()}>
+        <div className="modal-overlay" onClick={() => setSelectedProject(null)}>
+          <div className="modal-container" onClick={e => e.stopPropagation()}>
             
             {/* Close Button */}
             <button onClick={() => setSelectedProject(null)} style={{
@@ -255,13 +230,13 @@ function ProjectsPage() {
               <X size={18} />
             </button>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', padding: '30px' }}>
+            <div className="modal-content-grid">
               
               {/* Left Side: Image Carousel */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              <div className="modal-carousel-wrap">
                 {selectedProject.images && selectedProject.images.length > 0 ? (
                   <>
-                    <div style={{ position: 'relative', height: '300px', borderRadius: '12px', overflow: 'hidden', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                    <div className="modal-carousel-display">
                       <img src={selectedProject.images[activeImageIndex]} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                       
                       {selectedProject.images.length > 1 && (
@@ -284,13 +259,9 @@ function ProjectsPage() {
                       )}
                     </div>
                     {/* Thumbnails indicator */}
-                    <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '5px' }}>
+                    <div className="modal-carousel-thumbs">
                       {selectedProject.images.map((img, idx) => (
-                        <div key={idx} onClick={() => setActiveImageIndex(idx)} style={{
-                          width: '60px', height: '45px', borderRadius: '4px', overflow: 'hidden', cursor: 'pointer',
-                          border: activeImageIndex === idx ? '2px solid var(--accent)' : '2px solid transparent',
-                          opacity: activeImageIndex === idx ? 1 : 0.6, transition: 'all 0.2s'
-                        }}>
+                        <div key={idx} onClick={() => setActiveImageIndex(idx)} className={`modal-carousel-thumb ${activeImageIndex === idx ? 'active' : ''}`}>
                           <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         </div>
                       ))}
@@ -304,7 +275,7 @@ function ProjectsPage() {
               </div>
 
               {/* Right Side: Project Metadata */}
-              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div className="modal-right-info">
                 <div>
                   <div className="project-num" style={{ marginBottom: '5px' }}>{selectedProject.projectNum}</div>
                   <h3 style={{ fontSize: '1.8rem', color: 'var(--text)', fontWeight: '600', marginBottom: '15px', marginTop: 0 }}>{selectedProject.title}</h3>
