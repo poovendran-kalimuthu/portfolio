@@ -984,69 +984,222 @@ footer {
   }
 }
 
-/* ── INTERACTIVE CONNECT SECTION ──────────────── */
+/* ── ENHANCED INTERACTIVE CYBER CONNECT SECTION ── */
 .btn-connect {
-  background: transparent;
+  background: rgba(8, 12, 16, 0.6);
   color: var(--accent);
   border: 1.5px solid var(--accent);
-  padding: 16px 48px;
+  padding: 18px 52px;
   border-radius: 50px;
   font-family: var(--mono);
   font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.15em;
+  font-weight: 700;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 15px rgba(0, 255, 157, 0.05);
-  margin-top: 24px;
-  margin-bottom: 24px;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 20px rgba(0, 255, 157, 0.08);
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+/* Moving laser scanning highlight inside button */
+.btn-connect::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 157, 0.3),
+    transparent
+  );
+  transform: skewX(-25deg);
+  transition: none;
+}
+
+.btn-connect:hover::before {
+  left: 150%;
+  transition: left 0.8s ease-in-out;
 }
 
 .btn-connect:hover {
   background: var(--accent);
   color: var(--bg);
-  box-shadow: 0 0 30px rgba(0, 255, 157, 0.3);
-  transform: translateY(-2px);
+  box-shadow: 0 0 35px rgba(0, 255, 157, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px) scale(1.03);
+  border-color: var(--accent);
 }
 
 .btn-connect .share-icon-pulse {
-  animation: sharePulse 2s infinite ease-in-out;
+  animation: cyberShareRotate 3s infinite linear;
 }
 
-@keyframes sharePulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.2); opacity: 0.7; }
+@keyframes cyberShareRotate {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.15); }
+  100% { transform: rotate(360deg) scale(1); }
 }
 
+/* Interactive Glassmorphic Cyber Terminal Card */
 .connections-fade-in {
-  opacity: 0;
-  transform: translateY(15px);
-  animation: revealConnect 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  background: rgba(13, 17, 23, 0.45);
+  border: 1px solid rgba(0, 255, 157, 0.15);
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.5), 
+    0 0 30px rgba(0, 255, 157, 0.05), 
+    inset 0 0 20px rgba(0, 255, 157, 0.03);
+  padding: 48px;
+  border-radius: 16px;
+  backdrop-filter: blur(16px);
+  max-width: 620px;
+  margin: 32px auto 0;
+  position: relative;
+  overflow: hidden;
+  animation: cyberCardOpen 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes revealConnect {
+@keyframes cyberCardOpen {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+    border-color: rgba(0, 255, 157, 0.05);
+    box-shadow: 0 0 0 transparent;
+  }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
+/* Cybernetic corner bracket brackets */
+.connections-fade-in::before,
+.connections-fade-in::after {
+  content: '';
+  position: absolute;
+  width: 14px; height: 14px;
+  border: 2px solid var(--accent);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.connections-fade-in::before {
+  top: 14px; left: 14px;
+  border-right: none; border-bottom: none;
+}
+
+.connections-fade-in::after {
+  bottom: 14px; right: 14px;
+  border-left: none; border-top: none;
+}
+
+/* Pulsing background grid dots */
+.connections-fade-in::shadow-layer {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(0, 255, 157, 0.15) 1px, transparent 1px);
+  background-size: 16px 16px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* Staggered holographic assembly animation */
+.connections-fade-in > * {
+  opacity: 0;
+  transform: translateY(15px) scale(0.98);
+  animation: cyberRevealStagger 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cyberRevealStagger {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Stagger delays per child */
+.connections-fade-in > .contact-email {
+  animation-delay: 0.1s;
+}
+
+.connections-fade-in > .social-links > a:nth-child(1) {
+  animation-delay: 0.22s;
+}
+
+.connections-fade-in > .social-links > a:nth-child(2) {
+  animation-delay: 0.32s;
+}
+
+.connections-fade-in > .social-links > a:nth-child(3) {
+  animation-delay: 0.42s;
+}
+
+.connections-fade-in > .social-links > a:nth-child(4) {
+  animation-delay: 0.52s;
+}
+
+/* Contact Email Glitch Glow */
 .connections-fade-in .contact-email {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 32px;
+  gap: 12px;
+  margin-bottom: 40px;
+  padding: 12px 28px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
+.connections-fade-in .contact-email:hover {
+  background: rgba(0, 255, 157, 0.04);
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(0, 255, 157, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Enhanced Social links wrapper */
 .connections-fade-in .social-links {
   display: flex;
   justify-content: center;
-  gap: 24px;
+  gap: 20px;
   flex-wrap: wrap;
+}
+
+/* Holographic Micro-buttons */
+.connections-fade-in .social-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--border);
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0; /* Animated by stagger delay */
+  transform: translateY(15px);
+  animation: cyberRevealStagger 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.connections-fade-in .social-link:hover {
+  color: var(--accent);
+  background: rgba(0, 255, 157, 0.03);
+  border-color: var(--accent);
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.15);
+  transform: translateY(-3px) scale(1.05);
 }
 
 
