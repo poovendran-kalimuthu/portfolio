@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { ExternalLink, X, ChevronLeft, ChevronRight, Mail, BookOpen } from 'lucide-react';
+import { ExternalLink, X, ChevronLeft, ChevronRight, Mail, BookOpen, Share2 } from 'lucide-react';
 import '../index.css';
 
 const Github = ({ size = 24, ...props }) => (
@@ -66,6 +66,7 @@ function Portfolio() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [showConnections, setShowConnections] = useState(false);
 
   useEffect(() => {
     // Fetch projects
@@ -506,25 +507,38 @@ function Portfolio() {
             Open to full-time roles, contract work, and interesting open-source collaborations.<br />
             The best ideas usually start with a simple hello.
           </p>
-          <a href="mailto:poovendranhari@gmail.com" className="contact-email">poovendranhari@gmail.com</a>
-          <div className="social-links">
-            <a href="https://github.com/poovendran-kalimuthu" className="social-link">
-              <Github size={14} />
-              GitHub
-            </a>
-            <a href="#" className="social-link">
-              <Linkedin size={14} />
-              LinkedIn
-            </a>
-            <a href="#" className="social-link">
-              <Twitter size={14} />
-              Twitter
-            </a>
-            <a href="#" className="social-link">
-              <BookOpen size={14} />
-              Blog
-            </a>
-          </div>
+          
+          {!showConnections ? (
+            <button onClick={() => setShowConnections(true)} className="btn-connect">
+              <Share2 size={16} className="share-icon-pulse" />
+              Connect
+            </button>
+          ) : (
+            <div className="connections-fade-in">
+              <a href="mailto:poovendranhari@gmail.com" className="contact-email">
+                <Mail size={16} style={{ color: 'var(--accent)' }} />
+                poovendranhari@gmail.com
+              </a>
+              <div className="social-links">
+                <a href="https://github.com/poovendran-kalimuthu" target="_blank" rel="noreferrer" className="social-link">
+                  <Github size={14} />
+                  GitHub
+                </a>
+                <a href="#" className="social-link">
+                  <Linkedin size={14} />
+                  LinkedIn
+                </a>
+                <a href="#" className="social-link">
+                  <Twitter size={14} />
+                  Twitter
+                </a>
+                <a href="#" className="social-link">
+                  <BookOpen size={14} />
+                  Blog
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

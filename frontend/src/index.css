@@ -984,4 +984,69 @@ footer {
   }
 }
 
+/* ── INTERACTIVE CONNECT SECTION ──────────────── */
+.btn-connect {
+  background: transparent;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+  padding: 16px 48px;
+  border-radius: 50px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.05);
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.btn-connect:hover {
+  background: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 0 30px rgba(0, 255, 157, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-connect .share-icon-pulse {
+  animation: sharePulse 2s infinite ease-in-out;
+}
+
+@keyframes sharePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+.connections-fade-in {
+  opacity: 0;
+  transform: translateY(15px);
+  animation: revealConnect 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes revealConnect {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.connections-fade-in .contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.connections-fade-in .social-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
 
