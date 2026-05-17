@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import '../index.css';
 
 function AdminPanel() {
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+  const apiBaseUrl = import.meta.env.MODE === 'production'
+    ? 'https://portfolio-0vh9.onrender.com'
+    : 'http://localhost:5000';
   const [projects, setProjects] = useState([]);
   const [formData, setFormData] = useState({
     title: '',

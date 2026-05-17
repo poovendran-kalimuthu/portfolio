@@ -70,7 +70,9 @@ function Portfolio() {
   useEffect(() => {
     // Fetch projects
     setIsLoading(true);
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+    const apiBaseUrl = import.meta.env.MODE === 'production'
+      ? 'https://portfolio-0vh9.onrender.com'
+      : 'http://localhost:5000';
     axios.get(`${apiBaseUrl}/api/projects`)
       .then(res => {
         setProjects(res.data);
