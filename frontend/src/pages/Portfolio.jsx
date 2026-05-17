@@ -676,7 +676,7 @@ function Portfolio() {
           <li><a href="#experience">experience</a></li>
           <li><a href="#contact">contact</a></li>
         </ul>
-        <Link to="/admin" className="nav-admin-link">Admin</Link>
+        
       </nav>
 
       {/* HERO */}
