@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { ExternalLink, X, ChevronLeft, ChevronRight, Mail, BookOpen, Share2 } from 'lucide-react';
+import { ExternalLink, X, ChevronLeft, ChevronRight, Mail, BookOpen, Share2, Send, Check } from 'lucide-react';
 import '../index.css';
 
 const Github = ({ size = 24, ...props }) => (
@@ -58,6 +58,23 @@ const Twitter = ({ size = 24, ...props }) => (
   </svg>
 );
 
+const Whatsapp = ({ size = 24, ...props }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+  </svg>
+);
+
 function Portfolio() {
   const cursorRef = useRef(null);
   const ringRef = useRef(null);
@@ -67,6 +84,31 @@ function Portfolio() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [showConnections, setShowConnections] = useState(false);
+  const [msgFormData, setMsgFormData] = useState({ name: '', email: '', message: '' });
+  const [msgSending, setMsgSending] = useState(false);
+  const [msgSuccess, setMsgSuccess] = useState(false);
+  const [msgError, setMsgError] = useState('');
+
+  const handleMsgSubmit = async (e) => {
+    e.preventDefault();
+    setMsgSending(true);
+    setMsgError('');
+    setMsgSuccess(false);
+    const apiBaseUrl = import.meta.env.MODE === 'production'
+      ? 'https://portfolio-0vh9.onrender.com'
+      : 'http://localhost:5000';
+    try {
+      await axios.post(`${apiBaseUrl}/api/messages`, msgFormData);
+      setMsgSuccess(true);
+      setMsgFormData({ name: '', email: '', message: '' });
+      setTimeout(() => setMsgSuccess(false), 5000);
+    } catch (err) {
+      console.error(err);
+      setMsgError('Failed to transmit message. Please retry.');
+    } finally {
+      setMsgSending(false);
+    }
+  };
 
   useEffect(() => {
     // Fetch projects
@@ -519,7 +561,7 @@ function Portfolio() {
                 <Mail size={16} style={{ color: 'var(--accent)' }} />
                 poovendranhari@gmail.com
               </a>
-              <div className="social-links">
+              <div className="social-links" style={{ marginBottom: '40px' }}>
                 <a href="https://github.com/poovendran-kalimuthu" target="_blank" rel="noreferrer" className="social-link">
                   <Github size={14} />
                   GitHub
@@ -528,14 +570,69 @@ function Portfolio() {
                   <Linkedin size={14} />
                   LinkedIn
                 </a>
-                <a href="#" className="social-link">
-                  <Twitter size={14} />
-                  Twitter
+                <a href="https://wa.me/919943444007" target="_blank" rel="noreferrer" className="social-link">
+                  <Whatsapp size={14} />
+                  WhatsApp
                 </a>
                 <a href="#" className="social-link">
                   <BookOpen size={14} />
                   Blog
                 </a>
+              </div>
+
+              {/* ── IN-APP DIRECT COMMUNICATION FORM ── */}
+              <div className="cyber-chat-box">
+                <div className="chat-header">
+                  <div className="chat-status-dot"></div>
+                  <span className="chat-title">Direct In-App Communication Channel</span>
+                </div>
+                <form onSubmit={handleMsgSubmit} className="chat-form">
+                  <div className="chat-input-row">
+                    <input 
+                      type="text" 
+                      placeholder="Your Name" 
+                      value={msgFormData.name}
+                      onChange={(e) => setMsgFormData({...msgFormData, name: e.target.value})}
+                      required
+                      className="chat-input"
+                    />
+                    <input 
+                      type="email" 
+                      placeholder="Your Email" 
+                      value={msgFormData.email}
+                      onChange={(e) => setMsgFormData({...msgFormData, email: e.target.value})}
+                      required
+                      className="chat-input"
+                    />
+                  </div>
+                  <textarea 
+                    placeholder="Type your secure transmission here..." 
+                    value={msgFormData.message}
+                    onChange={(e) => setMsgFormData({...msgFormData, message: e.target.value})}
+                    required
+                    rows="3"
+                    className="chat-textarea"
+                  ></textarea>
+
+                  <div className="chat-action-bar">
+                    {msgError && <span className="chat-error">{msgError}</span>}
+                    {msgSuccess && <span className="chat-success">✓ Secure Transmission Success!</span>}
+                    
+                    <button type="submit" disabled={msgSending} className="chat-send-btn">
+                      {msgSending ? (
+                        <>
+                          <div className="btn-loader"></div>
+                          Transmitting...
+                        </>
+                      ) : (
+                        <>
+                          <Send size={12} />
+                          Transmit Message
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           )}

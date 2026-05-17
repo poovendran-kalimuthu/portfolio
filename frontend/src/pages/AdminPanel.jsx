@@ -21,9 +21,12 @@ function AdminPanel() {
   const [isFetching, setIsFetching] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [isFetchingMessages, setIsFetchingMessages] = useState(false);
 
   useEffect(() => {
     fetchProjects();
+    fetchMessages();
   }, []);
 
   const fetchProjects = async (showLoader = true) => {
@@ -35,6 +38,28 @@ function AdminPanel() {
       console.error('Failed to fetch projects', error);
     } finally {
       if (showLoader) setIsFetching(false);
+    }
+  };
+
+  const fetchMessages = async () => {
+    setIsFetchingMessages(true);
+    try {
+      const res = await axios.get(`${apiBaseUrl}/api/messages`);
+      setMessages(res.data);
+    } catch (error) {
+      console.error('Failed to fetch messages', error);
+    } finally {
+      setIsFetchingMessages(false);
+    }
+  };
+
+  const handleDeleteMessage = async (id) => {
+    if (!window.confirm('Are you sure you want to purge this message?')) return;
+    try {
+      await axios.delete(`${apiBaseUrl}/api/messages/${id}`);
+      fetchMessages();
+    } catch (error) {
+      console.error('Failed to delete message', error);
     }
   };
 
@@ -364,6 +389,56 @@ function AdminPanel() {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Visitor Messages Section */}
+      <div style={{ marginTop: '50px', background: 'var(--surface)', padding: '40px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: '500', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          In-App Communication Inbox <span style={{ color: 'var(--text-dim)', fontSize: '1rem' }}>({messages.length})</span>
+        </h2>
+
+        {isFetchingMessages ? (
+          <div className="cyber-loader-container" style={{ minHeight: '150px' }}>
+            <div className="cyber-spinner">
+              <div className="cyber-pulse-core"></div>
+            </div>
+            <div className="cyber-loader-text">Decrypting incoming transmissions...</div>
+          </div>
+        ) : messages.length === 0 ? (
+          <div style={{ padding: '40px 20px', background: 'rgba(255,255,255,0.01)', borderRadius: '12px', textAlign: 'center', border: '1px dashed rgba(255,255,255,0.05)' }}>
+            <p style={{ color: 'var(--text-dim)', fontSize: '0.95rem' }}>No in-app transmissions received yet.</p>
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+            {messages.map((msg) => (
+              <div key={msg._id} style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '10px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative' }}>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
+                    <div>
+                      <h4 style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text)', fontWeight: '600' }}>{msg.name}</h4>
+                      <a href={`mailto:${msg.email}`} style={{ fontSize: '0.8rem', color: 'var(--accent)', textDecoration: 'none' }}>{msg.email}</a>
+                    </div>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)', fontFamily: 'var(--mono)' }}>
+                      {new Date(msg.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                  <p style={{ margin: '15px 0 0', color: 'var(--text-dim)', fontSize: '0.9rem', lineHeight: '1.5', whiteSpace: 'pre-wrap' }}>{msg.message}</p>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '12px' }}>
+                  <button 
+                    onClick={() => handleDeleteMessage(msg._id)} 
+                    style={deleteBtnStyle}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                    Purge
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       
       <footer style={{ marginTop: '100px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '30px', textAlign: 'center', color: 'var(--text-dim)' }}>

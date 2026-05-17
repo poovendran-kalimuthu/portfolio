@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import Project from './models/Project.js';
+import Message from './models/Message.js';
 
 dotenv.config();
 
@@ -57,6 +58,35 @@ app.delete('/api/projects/:id', async (req, res) => {
     res.json({ message: 'Project deleted' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting project' });
+  }
+});
+
+// Messages API (In-App Communication)
+app.post('/api/messages', async (req, res) => {
+  try {
+    const newMessage = new Message(req.body);
+    await newMessage.save();
+    res.status(201).json(newMessage);
+  } catch (error) {
+    res.status(500).json({ message: 'Error saving message' });
+  }
+});
+
+app.get('/api/messages', async (req, res) => {
+  try {
+    const messages = await Message.find().sort({ createdAt: -1 });
+    res.json(messages);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching messages' });
+  }
+});
+
+app.delete('/api/messages/:id', async (req, res) => {
+  try {
+    await Message.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Message deleted' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting message' });
   }
 });
 
